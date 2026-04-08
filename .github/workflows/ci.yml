@@ -61,7 +61,7 @@ jobs:
         run: |
           python - <<'PYEOF'
           import pathlib, sys
-          conf = pathlib.Path("conf/spark-defaults.conf").read_text()
+          conf = pathlib.Path("conf/spark-defaults.conf").read_text(encoding="utf-8", errors="replace")
           required = [
               "spark.sql.ansi.enabled",
               "spark.shuffle.sort.bypassMergeThreshold",
