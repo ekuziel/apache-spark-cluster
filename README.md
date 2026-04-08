@@ -1,22 +1,25 @@
-# Apache Spark 3.5.8 — Local Cluster with Gluten/Velox | Iceberg | Delta Lake | JupyterLab
+# Apache Spark 4.0.2 — Local Cluster with Gluten/Velox, Iceberg, Delta, JupyterLab as a part local development environment for testing and benchmarking Spark features and performance.
 
-A self-contained local Spark cluster with full Gluten/Velox support, built on the **official** `spark:3.5.8-scala2.12-java17-python3-ubuntu` Docker image.
+A self-contained local Spark cluster with Gluten/Velox support, built on the official `spark:4.0.2-scala2.13-java17-python3-ubuntu` Docker image.
 
 | Mode | Command | Description |
 |---|---|---|
 | **Vanilla** | `make up` | Standard JVM-based Spark execution |
-| **Gluten/Velox** | `make up-gluten` | Native columnar execution via Gluten 1.4 + Velox |
+| **Gluten/Velox** | `make up-gluten` | Native columnar execution via Gluten 1.6.0 + Velox |
 
 ## Stack
 
 | Component | Version | Notes |
 |---|---|---|
-| Apache Spark | **3.5.8** | Scala 2.12, Java 17 |
-| Apache Gluten | **1.6.0** | Velox backend — fully compatible with Spark 3.5 |
-| Apache Iceberg | **1.5.2** | `iceberg-spark-runtime-3.5_2.12` |
-| Delta Lake | **3.3.1** | `delta-spark_2.12` |
+| Apache Spark | **4.0.2** | Scala 2.13, Java 17 |
+| Apache Gluten | **1.6.0** | Velox backend — supports Spark 4.0.x |
+| Apache Iceberg | **1.10.1** | `iceberg-spark-runtime-4.0_2.13` |
+| Delta Lake | **4.0.1** | `delta-spark_2.13` |
 | JupyterLab | latest | |
-| Base OS | Ubuntu 22.04 | Required by Gluten prebuilt JARs |
+| Base OS | Ubuntu 22.04 | |
+
+> **Note:** Gluten 1.6.0 was tested against Spark 4.0.1. Running on 4.0.2 produces a harmless
+> `version not matched` warning — everything works correctly.
 
 ## Architecture
 
@@ -43,7 +46,7 @@ cd spark-cluster
 # 2. Init directories + .env
 make init
 
-# 3. Build image (~5 min first time)
+# 3. Build image (~10 min first time — downloads Gluten JAR ~98 MB)
 make build
 
 # 4a. Vanilla mode
@@ -52,9 +55,8 @@ make up
 # 4b. Gluten/Velox mode
 make up-gluten
 
-# 5. Generate benchmark data (TPC-H style)
-make data          # ~150 MB  (scale=1)
-make data SCALE=5  # ~750 MB
+# 5. Generate benchmark data inside the notebook container
+make data
 
 # 6. Open JupyterLab
 make notebook      # → http://localhost:8888  token: spark
@@ -75,71 +77,55 @@ make notebook      # → http://localhost:8888  token: spark
 
 ```
 spark-cluster/
-├── Dockerfile                        Spark 3.5.8 + Iceberg + Delta + Gluten
+├── Dockerfile                        Spark 4.0.2 + Iceberg + Delta + Gluten
 ├── docker-compose.yml                master, 2 workers, history, notebook
 ├── docker-compose.override.yml       local resource overrides
 ├── entrypoint.sh                     role dispatcher + Gluten config injection
 ├── Makefile
 ├── conf/spark-defaults.conf          Iceberg, Delta, AQE, event log config
 ├── notebooks/
-│   └── spark_scenarios_benchmark.ipynb   Part A: scenarios / Part B: benchmark
+│   ├── 01_dataframe_basics.ipynb
+│   ├── 02_caching_partitioning.ipynb
+│   ├── 03_parquet_iceberg_delta.ipynb
+│   ├── 04_streaming_udf_aqe.ipynb
+│   ├── 05_generate_benchmark_data.ipynb
+│   └── 06_benchmark_vanilla_vs_gluten.ipynb
 ├── scripts/
-│   ├── generate_data.py              TPC-H style data generator
-│   └── test_connection.py            smoke test
+│   ├── generate_data.py
+│   └── test_connection.py
 ├── data/                             Parquet data (git-ignored)
-├── spark-events/                     History Server logs (git-ignored)
-└── .github/workflows/ci.yml
+└── spark-events/                     History Server logs (git-ignored)
 ```
 
-## Notebook Contents
+## Notebooks
 
-### Part A — Core Scenarios
-| # | Topic |
-|---|---|
-| 0 | SparkSession (vanilla / Gluten mode) |
-| 1 | DataFrame API |
-| 2 | Spark SQL — window functions, CTEs |
-| 3 | Caching & Persist |
-| 4 | Partitioning |
-| 5 | Broadcast join |
-| 6 | Parquet + partition pruning |
-| 7 | Apache Iceberg — ACID, MERGE, Time Travel, Schema Evolution |
-| 8 | Delta Lake — ACID, Time Travel, OPTIMIZE |
-| 9 | Structured Streaming |
-| 10 | UDF & Pandas UDF |
-| 11 | AQE & explain() |
-
-### Part B — Vanilla vs Gluten/Velox Benchmark
-| # | Topic |
-|---|---|
-| 12 | Load TPC-H data |
-| 13 | Queries + runner (Q1, Q3, Q6, Q12, Q_window) |
-| 14 | Warmup |
-| 15 | Run & save results |
-| 16 | Verify Velox operators in plan |
-| 17 | Comparison chart |
+| # | Notebook | Topic |
+|---|---|---|
+| 01 | DataFrame Basics | DataFrame API, SQL, window functions |
+| 02 | Caching & Partitioning | persist, broadcast join, AQE |
+| 03 | Parquet / Iceberg / Delta | formats, time travel, MERGE |
+| 04 | Streaming, UDF, AQE | structured streaming, pandas UDF |
+| 05 | Generate Benchmark Data | TPC-H style data generation |
+| 06 | Benchmark Vanilla vs Gluten | TPC-H queries, timing, comparison chart |
 
 ## Benchmark Workflow
 
 ```bash
-# Run 1 — vanilla
-make up && # execute Part B in notebook
-# saves: notebooks/results/results_vanilla.json
+# 1. Start cluster
+make up-gluten
 
-# Run 2 — Gluten
-make down && make up-gluten && # execute Part B in notebook
-# saves: notebooks/results/results_gluten.json
+# 2. Generate data (~150 MB, scale=1)
+make data
 
-# Chart is rendered in cell 17 once both files exist
+# 3. Open JupyterLab → run notebook 06
+make notebook
 ```
 
 ## How Gluten Config is Injected
 
-`entrypoint.sh` appends Gluten settings to `spark-defaults.conf` at container
-startup when `GLUTEN_ENABLED=true`. This is the only correct approach —
-`SPARK_SUBMIT_OPTS` with `--conf` flags crashes the JVM with
-`Unrecognized option: --conf` because `spark-class` passes env vars raw to
-the JVM process args parser.
+`entrypoint.sh` appends Gluten settings to `spark-defaults.conf` at container startup
+when `GLUTEN_ENABLED=true`. The Gluten JAR lives in `$SPARK_HOME/jars/` and is loaded
+automatically — no `extraClassPath` needed.
 
 ## Makefile Reference
 
@@ -151,19 +137,8 @@ make up-gluten     # start Gluten/Velox cluster
 make down          # stop cluster
 make logs          # tail spark-master logs
 make status        # docker compose ps
-make data          # generate TPC-H data (SCALE=1)
-make data SCALE=5  # generate ~750 MB data
+make data          # generate TPC-H benchmark data
 make clean         # stop + delete data
+make nuke          # remove all images + builder cache
 make notebook      # open JupyterLab in browser
-```
-
-## Upgrading to Spark 4.x + Gluten 1.5
-
-When Gluten 1.5 (Spark 4.x support) is released, update `Dockerfile`:
-
-```dockerfile
-FROM spark:4.x.x-scala2.13-java21-python3-ubuntu
-ARG GLUTEN_VERSION=1.5.x
-# Update JAR name: gluten-velox-bundle-spark4.x_2.13-ubuntu_22.04-1.5.x.jar
-# Remove spark.shuffle.manager from entrypoint Gluten block (renamed in Spark 4.x)
 ```

@@ -53,9 +53,12 @@ status:
 	docker compose ps
 
 data:
-	pip install pandas pyarrow numpy -q
-	python3 scripts/generate_data.py --scale $(SCALE) --out data
-	@echo "Data ready in ./data/"
+	@echo "Generating benchmark data (SCALE=$(SCALE)) inside notebook container..."
+	docker compose exec notebook jupyter nbconvert --to notebook --execute \
+		--ExecutePreprocessor.timeout=300 \
+		/workspace/notebooks/05_generate_benchmark_data.ipynb \
+		--output /workspace/notebooks/05_generate_benchmark_data.ipynb
+	@echo "Done — data ready in ./data/"
 
 clean:
 	docker compose down

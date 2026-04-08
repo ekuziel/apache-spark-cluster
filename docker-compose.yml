@@ -1,6 +1,6 @@
 
 # =============================================================================
-# Apache Spark 3.5.8 — local cluster
+# Apache Spark 4.1.1 — local cluster
 #
 # Vanilla mode (default):  docker compose up
 # Gluten/Velox mode:       GLUTEN_ENABLED=true docker compose up
@@ -9,7 +9,7 @@
 # Services:
 #   spark-master    — Spark master               :8080 (UI)  :7077 (cluster)
 #   spark-worker-1  — Worker 1                   :8081 (UI)
-#   spark-worker-2  — Worker 2                   :8082 (UI)
+#   spark-worker-2  — Worker 2                   :8083 (UI)
 #   spark-history   — History Server             :18080
 #   notebook        — JupyterLab                 :8888
 # =============================================================================
@@ -27,6 +27,7 @@ x-spark-common: &spark-common
   volumes:
     - ./data:/workspace/data
     - ./notebooks:/workspace/notebooks
+    - ./scripts:/workspace/scripts
     - spark-logs:/opt/spark/logs
   networks:
     - spark-net
@@ -93,7 +94,7 @@ services:
       SPARK_WORKER_MEMORY: "2g"
       SPARK_WORKER_WEBUI_PORT: "8082"
     ports:
-      - "8082:8082"
+      - "8083:8082"
 
   # ── History Server ─────────────────────────────────────────────────────────
   spark-history:

@@ -5,6 +5,7 @@ data/delta/
 data/iceberg/
 data/warehouse/
 spark-events/
+data/
 
 # Keep placeholder files
 !data/.gitkeep
