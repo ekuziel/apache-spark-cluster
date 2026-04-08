@@ -80,6 +80,8 @@ jobs:
 
       - name: Check entrypoint is executable
         run: |
+          # Ensure executable bit is set (git on Windows may lose it)
+          chmod +x entrypoint.sh
           test -x entrypoint.sh \
             && echo "entrypoint.sh: executable OK" \
             || (echo "entrypoint.sh: NOT executable" && exit 1)
