@@ -1,6 +1,6 @@
 #!/bin/bash
 # =============================================================================
-# Spark cluster entrypoint — Spark 3.5.8 + Gluten 1.6.0
+# Spark cluster entrypoint — Spark 4.0.2 + Gluten 1.6.0
 # =============================================================================
 set -e
 
@@ -16,35 +16,25 @@ configure_gluten() {
         echo "[entrypoint] Vanilla Spark mode."
         return
     fi
-
-    # Verify JAR exists AND is non-empty
     if [ ! -f "${GLUTEN_JAR}" ]; then
-        echo "[entrypoint] ERROR: GLUTEN_ENABLED=true but JAR missing: ${GLUTEN_JAR}"
-        echo "[entrypoint] Falling back to vanilla mode."
+        echo "[entrypoint] ERROR: GLUTEN_ENABLED=true but JAR missing."
         return
     fi
-
     JAR_SIZE=$(stat -c%s "${GLUTEN_JAR}" 2>/dev/null || echo 0)
     if [ "${JAR_SIZE}" -lt 1000000 ]; then
-        echo "[entrypoint] ERROR: Gluten JAR is too small (${JAR_SIZE} bytes) — download failed."
-        echo "[entrypoint] Fix: rebuild image with: docker compose build --no-cache"
-        echo "[entrypoint] Falling back to vanilla mode."
+        echo "[entrypoint] ERROR: Gluten JAR too small (${JAR_SIZE} bytes)."
         return
     fi
-
     echo "[entrypoint] Gluten/Velox ENABLED — JAR: ${JAR_SIZE} bytes"
-
     cat >> "${SPARK_CONF}" << GLUTEN_CONF
 
-# Gluten/Velox — written by entrypoint.sh (GLUTEN_ENABLED=true)
+# Gluten/Velox — written by entrypoint.sh
 spark.plugins                                    org.apache.gluten.GlutenPlugin
 spark.gluten.sql.columnar.backend.lib            velox
-spark.shuffle.manager                            org.apache.spark.shuffle.sort.ColumnarShuffleManager
 spark.memory.offHeap.enabled                     true
 spark.memory.offHeap.size                        1g
 spark.gluten.sql.columnar.forceShuffledHashJoin  true
 GLUTEN_CONF
-
     echo "[entrypoint] Gluten config written."
 }
 

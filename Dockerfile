@@ -1,17 +1,25 @@
 # =============================================================================
-# Apache Spark 3.5.8 + Gluten 1.6.0 (Velox backend)
-# Scala 2.12 | Java 17 | Ubuntu 22.04
+# Apache Spark 4.0.2 + Gluten 1.6.0 (Velox backend)
+# Scala 2.13 | Java 17 | Ubuntu 22.04
+#
+# Gluten JAR source (official Apache binary release):
+# https://dlcdn.apache.org/gluten/1.6.0/apache-gluten-1.6.0-bin-spark-4.0.tar.gz
+# Contains: gluten-velox-bundle-spark4.0_2.13-linux_amd64-1.6.0.jar
 # =============================================================================
 
-FROM spark:3.5.8-scala2.12-java17-python3-ubuntu
+FROM spark:4.0.2-scala2.13-java17-python3-ubuntu
 
 ARG GLUTEN_VERSION=1.6.0
 
-ENV SPARK_VERSION=3.5.8
+ENV SPARK_VERSION=4.0.2
 ENV GLUTEN_VERSION=${GLUTEN_VERSION}
 ENV SPARK_LOG_DIR=/opt/spark/logs
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
+# Use Spark image's built-in PySpark — do NOT install pyspark via pip.
+# Installing pyspark pip package duplicates JARs and causes NoSuchMethodError
+# when the pip JARs conflict with /opt/spark/jars/ (e.g. Gluten).
+ENV PYTHONPATH=/opt/spark/python:/opt/spark/python/lib/py4j-src.zip:${PYTHONPATH}
 
 USER root
 
@@ -25,52 +33,42 @@ RUN apt-get update && apt-get install -y --no-install-recommends curl \
 # Python packages
 # ---------------------------------------------------------------------------
 RUN pip3 install --no-cache-dir \
-    pyspark==3.5.8 \
+    py4j \
     jupyterlab \
     pandas \
     pyarrow \
     numpy \
     matplotlib \
     seaborn \
-    delta-spark==3.3.1
+ && pip3 install --no-cache-dir --no-deps delta-spark==4.0.1
 
 # ---------------------------------------------------------------------------
-# Iceberg + Delta JARs (Maven Central)
+# Iceberg + Delta JARs (Spark 4.0 / Scala 2.13)
 # ---------------------------------------------------------------------------
 RUN curl -fsSL \
-    "https://repo1.maven.org/maven2/org/apache/iceberg/iceberg-spark-runtime-3.5_2.12/1.5.2/iceberg-spark-runtime-3.5_2.12-1.5.2.jar" \
-    -o "${SPARK_HOME}/jars/iceberg-spark-runtime-3.5_2.12-1.5.2.jar" \
+    "https://repo1.maven.org/maven2/org/apache/iceberg/iceberg-spark-runtime-4.0_2.13/1.10.1/iceberg-spark-runtime-4.0_2.13-1.10.1.jar" \
+    -o "${SPARK_HOME}/jars/iceberg-spark-runtime-4.0_2.13-1.10.1.jar" \
  && curl -fsSL \
-    "https://repo1.maven.org/maven2/io/delta/delta-spark_2.12/3.3.1/delta-spark_2.12-3.3.1.jar" \
-    -o "${SPARK_HOME}/jars/delta-spark_2.12-3.3.1.jar" \
+    "https://repo1.maven.org/maven2/io/delta/delta-spark_2.13/4.0.1/delta-spark_2.13-4.0.1.jar" \
+    -o "${SPARK_HOME}/jars/delta-spark_2.13-4.0.1.jar" \
  && curl -fsSL \
-    "https://repo1.maven.org/maven2/io/delta/delta-storage/3.3.1/delta-storage-3.3.1.jar" \
-    -o "${SPARK_HOME}/jars/delta-storage-3.3.1.jar"
+    "https://repo1.maven.org/maven2/io/delta/delta-storage/4.0.1/delta-storage-4.0.1.jar" \
+    -o "${SPARK_HOME}/jars/delta-storage-4.0.1.jar"
 
 # ---------------------------------------------------------------------------
-# Gluten/Velox JAR — official Apache binary release
-# Source: https://dlcdn.apache.org/gluten/1.6.0/
-# Tarball (~98 MB) contains the prebuilt gluten-velox-bundle JAR inside.
+# Gluten/Velox JAR — extracted from official Apache binary tarball
 # ---------------------------------------------------------------------------
-#RUN curl -fL \
-#   "https://dlcdn.apache.org/gluten/${GLUTEN_VERSION}/apache-gluten-${GLUTEN_VERSION}-bin-spark-3.5.tar.gz" \
-#    -o /tmp/gluten.tar.gz \
-# && tar -xzf /tmp/gluten.tar.gz -C /tmp \                                     
-# && find /tmp/apache-gluten-* -name "gluten-velox-bundle-spark3.5_2.12-linux_amd64-1.6.0.jar" | head -1 \
-#    | xargs -I{} cp {} "${SPARK_HOME}/jars/gluten.jar" \
-# && rm -rf /tmp/gluten.tar.gz /tmp/apache-gluten-* \
-# && echo "Gluten JAR: $(du -sh ${SPARK_HOME}/jars/gluten.jar)"
-
 RUN set -eux; \
-    curl -fL "https://dlcdn.apache.org/gluten/${GLUTEN_VERSION}/apache-gluten-${GLUTEN_VERSION}-bin-spark-3.5.tar.gz" -o /tmp/gluten.tar.gz; \
+    curl -fL \
+      "https://dlcdn.apache.org/gluten/${GLUTEN_VERSION}/apache-gluten-${GLUTEN_VERSION}-bin-spark-4.0.tar.gz" \
+      -o /tmp/gluten.tar.gz; \
     tar -xzf /tmp/gluten.tar.gz -C /tmp; \
-    find /tmp -type f | grep 'gluten-velox-bundle' || true; \
-    GLUTEN_JAR="$(find /tmp -type f -name 'gluten-velox-bundle-spark3.5_2.12-linux_amd64-1.6.0.jar' | head -1)"; \
-    echo "FOUND=$GLUTEN_JAR"; \
-    test -n "$GLUTEN_JAR"; \
-    cp "$GLUTEN_JAR" "${SPARK_HOME}/jars/gluten.jar"; \
+    GLUTEN_JAR="$(find /tmp -type f -name 'gluten-velox-bundle-spark4.0_2.13-linux_amd64-*.jar' | head -1)"; \
+    echo "Found Gluten JAR: ${GLUTEN_JAR}"; \
+    test -n "${GLUTEN_JAR}"; \
+    cp "${GLUTEN_JAR}" "${SPARK_HOME}/jars/gluten.jar"; \
     ls -lah "${SPARK_HOME}/jars/gluten.jar"; \
-    rm -rf /tmp/gluten.tar.gz
+    rm -rf /tmp/gluten.tar.gz /tmp/apache-gluten-*
 
 # ---------------------------------------------------------------------------
 # Workspace + log directories
