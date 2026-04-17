@@ -164,7 +164,9 @@ spark-cluster/
 │   │   ├── 02_streaming_iceberg.ipynb
 │   │   └── 03_stateful_operations.ipynb
 │   │
-│   └── configuration/                       ← Spark configuration
+│   ├── configuration/                       ← Spark configuration
+│   │
+│   └── training/                            ← Databricks cert prep (8 notebooks)
 │       ├── README.md
 │       ├── 01_active_configuration.ipynb
 │       └── 02_all_parameters.ipynb
@@ -351,6 +353,22 @@ spark-cluster/
 |---|---|
 | `01_active_configuration` | All explicitly configured parameters from `spark-defaults.conf` — live values from SparkSession, category (Cluster/SQL/AQE/Catalog/Shuffle/JVM), explanation |
 | `02_all_parameters` | All Spark parameters including defaults — filter by prefix, keyword search, explicitly set vs default comparison, CSV export |
+
+
+### `training/` — Databricks Spark Developer Certification Prep
+
+**Target:** Databricks Certified Associate Developer for Apache Spark (v3.5)
+
+| Notebook | Exam Topic | Weight |
+|---|---|---|
+| `01_spark_architecture` | Driver/executor, deployment modes, lazy evaluation, fault tolerance, GC | ~17% |
+| `02_dataframe_api` | select/filter/sort/agg/join/union/missing data/repartition — largest section | ~35% |
+| `03_spark_sql` | Temp views, window functions (rank/dense_rank/lag/lead), Catalyst optimizer | ~15% |
+| `04_udfs` | Python UDF, Pandas UDF (vectorized), built-in functions vs UDF performance | ~10% |
+| `05_structured_streaming` | Output modes (append/complete/update), triggers, checkpointLocation, watermarking | ~13% |
+| `06_performance_optimization` | Caching/persist, broadcast joins, AQE, data skew, explain() | ~15% |
+| `07_pandas_api_on_spark` | pyspark.pandas API, to_spark(), toPandas() driver memory warning | ~5% |
+
 
 ## Docs & Troubleshooting
 

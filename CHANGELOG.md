@@ -7,6 +7,20 @@ All notable changes follow [Semantic Versioning](https://semver.org/):
 
 ---
 
+## [1.1.5] — 2026-04-17
+
+### Added — Training prep notebooks
+
+#### `notebooks/training/` (new folder — 8 notebooks)
+- `01_spark_architecture` — Driver/executor roles, deployment modes (client/cluster/local), execution hierarchy (Job→Stage→Task), lazy evaluation, fault tolerance via lineage, GC impact
+- `02_dataframe_api` — select/selectExpr/withColumn/withColumnRenamed/drop, filter, sort, aggregations, all join types (inner/left/semi/anti/cross), union/unionByName, missing data (dropna/fillna/replace), repartition vs coalesce
+- `03_spark_sql` — Temp views vs global views, window functions (rank/dense_rank/row_number/lag/lead/running totals), Catalyst optimizer phases, SQL functions (date/string/conditional)
+- `04_udfs` — Python UDF with NULL handling, Pandas UDF (vectorized Series→Series), performance comparison built-in > Pandas UDF > Python UDF
+- `05_structured_streaming` — Output modes (append/complete/update) rules, all trigger types, checkpointLocation (writeStream not readStream), watermarking for late data
+- `06_performance_optimization` — StorageLevel variants, broadcast joins + threshold, AQE (coalesce/broadcast upgrade/skew), data skew solutions (salting/broadcast/repartition), explain() reading
+- `07_pandas_api_on_spark` — pyspark.pandas API, groupby/fillna/apply, toPandas() driver memory warning, to_spark() conversion, index handling
+
+
 ## [1.1.4] — 2026-04-10
 
 ### Added — Configuration notebooks + bug fixes
