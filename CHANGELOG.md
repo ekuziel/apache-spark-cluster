@@ -7,7 +7,7 @@ All notable changes follow [Semantic Versioning](https://semver.org/):
 
 ---
 
-## [1.1.5] — 2026-04-17
+## [1.1.5]
 
 ### Added — Training notebooks
 
@@ -20,7 +20,7 @@ All notable changes follow [Semantic Versioning](https://semver.org/):
 - `06_performance_optimization` — StorageLevel variants, broadcast joins + threshold, AQE (coalesce/broadcast upgrade/skew), data skew solutions (salting/broadcast/repartition), explain() reading
 - `07_pandas_api_on_spark` — pyspark.pandas API (df.pandas_api()), groupby/fillna/apply, toPandas() driver memory warning, to_spark(index_col) conversion
 
-## [1.1.4] — 2026-04-10
+## [1.1.4]
 
 ### Added — Configuration notebooks + bug fixes
 
@@ -71,7 +71,7 @@ All notable changes follow [Semantic Versioning](https://semver.org/):
 - Added detailed notebook tables for basics/csv, basics/parquet, basics/delta, basics/iceberg, basics/avro
 - Added configuration/ section to Project Structure and Notebooks
 
-## [1.1.3] — 2026-04-09
+## [1.1.3]
 
 ### Added — ORC basics (10), JSON basics (10), Protobuf basics (10)
 
@@ -111,7 +111,7 @@ All notable changes follow [Semantic Versioning](https://semver.org/):
 - `09_protobuf_to_parquet` — binary landing zone, UDF-based deserializer, Parquet output, row count validation
 - `10_protobuf_best_practices` — .proto design guidelines, descriptor management, Spark 4.0.2 checklist, full recap
 
-## [1.1.2] — 2026-04-09
+## [1.1.2]
 
 ### Added — Iceberg basics (10 notebooks) + Avro basics (10 notebooks)
 
@@ -156,7 +156,7 @@ All notable changes follow [Semantic Versioning](https://semver.org/):
 - `10_avro_compression` — Codec benchmark (uncompressed/snappy/deflate/bzip2/xz),
   compression per data type, Kafka vs storage codec recommendations
 
-## [1.1.1] — 2026-04-09
+## [1.1.1]
 
 ### Fixed
 - Added `spark-avro_2.13-4.0.2.jar` to Dockerfile — Avro is built-in since Spark 2.4
@@ -165,7 +165,7 @@ All notable changes follow [Semantic Versioning](https://semver.org/):
 
 ---
 
-## [1.1.0] — 2026-04-09
+## [1.1.0]
 
 ### Added — Data Formats & Storage expansion
 
@@ -185,7 +185,7 @@ All notable changes follow [Semantic Versioning](https://semver.org/):
 
 ---
 
-## [1.0.1] — 2026-04-08
+## [1.0.1]
 
 ### Added — Learning Notebooks
 
@@ -231,7 +231,7 @@ New folder structure under `notebooks/` with deep-dive notebooks for self-study:
 
 ---
 
-## [1.0.0] — 2026-04-08
+## [1.0.0]
 
 ### Added
 - Initial stable release with fully working Spark 4.0.2 + Gluten 1.6.0 stack
@@ -270,7 +270,7 @@ New folder structure under `notebooks/` with deep-dive notebooks for self-study:
 
 ---
 
-## [0.9.1] — 2026-04-07
+## [0.9.1]
 
 ### Changed
 - Gluten upgrade: 1.4.0 → 1.6.0
@@ -280,7 +280,7 @@ New folder structure under `notebooks/` with deep-dive notebooks for self-study:
 
 ---
 
-## [0.9.0] — 2026-04-07
+## [0.9.0]
 
 ### Added
 - Initial working prototype: Spark 3.5.8 + Gluten 1.4.0
