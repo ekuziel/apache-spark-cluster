@@ -117,7 +117,6 @@ spark-cluster/
 │   ├── generate_data.py
 │   └── test_connection.py
 ├── notebooks/
-│   │
 │   ├── 01_dataframe_basics.ipynb
 │   ├── 02_caching_partitioning.ipynb
 │   ├── 03_parquet_iceberg_delta.ipynb
