@@ -1,4 +1,4 @@
-# Iceberg Basics — 10 Notebooks
+# Iceberg Basics
 
 Complete guide to Apache Iceberg from first table to production metadata.
 

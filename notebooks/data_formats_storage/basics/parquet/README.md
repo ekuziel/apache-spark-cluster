@@ -1,4 +1,4 @@
-# Parquet Basics — 10 Notebooks
+# Parquet Basics
 
 Complete guide to reading, writing, and optimizing Parquet files with Apache Spark.
 

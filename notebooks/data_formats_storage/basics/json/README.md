@@ -1,4 +1,4 @@
-# JSON Basics — 10 Notebooks
+# JSON Basics
 
 | # | Notebook | Topics |
 |---|---|---|

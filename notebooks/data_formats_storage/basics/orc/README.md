@@ -1,4 +1,4 @@
-# ORC Basics — 10 Notebooks
+# ORC Basics
 
 | # | Notebook | Topics |
 |---|---|---|

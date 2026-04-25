@@ -1,4 +1,4 @@
-# Avro Basics — 10 Notebooks
+# Avro Basics
 
 Complete guide to Apache Avro for event streaming and schema evolution.
 
