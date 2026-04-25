@@ -48,7 +48,7 @@ RUN pip3 install --no-cache-dir \
  && pip3 install --no-cache-dir --no-deps delta-spark==4.0.1
 
 # ---------------------------------------------------------------------------
-# Iceberg + Delta + Avro + Hudi JARs (Spark 4.0 / Scala 2.13)
+# Iceberg + Delta + Avro + Hudi + Kafka connector JARs (Spark 4.0 / Scala 2.13)
 # ---------------------------------------------------------------------------
 RUN curl -fsSL \
     "https://repo1.maven.org/maven2/org/apache/iceberg/iceberg-spark-runtime-4.0_2.13/1.10.1/iceberg-spark-runtime-4.0_2.13-1.10.1.jar" \
@@ -62,6 +62,18 @@ RUN curl -fsSL \
  && curl -fsSL \
     "https://repo1.maven.org/maven2/org/apache/spark/spark-avro_2.13/4.0.2/spark-avro_2.13-4.0.2.jar" \
     -o "${SPARK_HOME}/jars/spark-avro_2.13-4.0.2.jar" \
+ && curl -fsSL \
+    "https://repo1.maven.org/maven2/org/apache/spark/spark-sql-kafka-0-10_2.13/4.0.2/spark-sql-kafka-0-10_2.13-4.0.2.jar" \
+    -o "${SPARK_HOME}/jars/spark-sql-kafka-0-10_2.13-4.0.2.jar" \
+ && curl -fsSL \
+    "https://repo1.maven.org/maven2/org/apache/spark/spark-token-provider-kafka-0-10_2.13/4.0.2/spark-token-provider-kafka-0-10_2.13-4.0.2.jar" \
+    -o "${SPARK_HOME}/jars/spark-token-provider-kafka-0-10_2.13-4.0.2.jar" \
+ && curl -fsSL \
+    "https://repo1.maven.org/maven2/org/apache/kafka/kafka-clients/3.9.1/kafka-clients-3.9.1.jar" \
+    -o "${SPARK_HOME}/jars/kafka-clients-3.9.1.jar" \
+ && curl -fsSL \
+    "https://repo1.maven.org/maven2/org/apache/commons/commons-pool2/2.12.0/commons-pool2-2.12.0.jar" \
+    -o "${SPARK_HOME}/jars/commons-pool2-2.12.0.jar" \
  && curl -fsSL \
     "https://repo1.maven.org/maven2/org/apache/hudi/hudi-spark4.0-bundle_2.13/${HUDI_VERSION}/hudi-spark4.0-bundle_2.13-${HUDI_VERSION}.jar" \
     -o "${SPARK_HOME}/jars/hudi-spark4.0-bundle_2.13-${HUDI_VERSION}.jar"
