@@ -6,6 +6,15 @@ All notable changes follow [Semantic Versioning](https://semver.org/):
 - **PATCH** — bug fixes, documentation, CI improvements
 
 ---
+## [1.1.8]
+
+### Added — Real-world pipeline and PySpark optimization notebooks
+
+#### `notebooks/`
+- `09_real_world_pipeline_delta_vs_hudi` - Bronze → Silver pipeline pattern / Initial batch ingestion / Late arriving updates and new inserts / Duplicate handling with source deduplication for Delta MERGE / Hudi upsert with `precombine.field` / Delta Change Data Feed read / Hudi incremental query read / Query plan comparison with / File layout and small files analysis / Runtime and storage charts using matplotlib
+- `10_pyspark_performance_optimization` - SparkSession optimization defaults / Partition strategy and target partition sizing / Strategic caching and unpersist() / Broadcast joins / Filter pushdown and column pruning / Shuffle partition tuning / Partition distribution inspection / Execution plan checklist
+
+
 ## [1.1.7]
 
 ### Added — Benchmarks (Delta vs Iceberg vs Hudi)

@@ -127,6 +127,8 @@ spark-cluster/
 │   ├── 06_benchmark_vanilla_vs_gluten.ipynb
 │   ├── 07_benchmark_delta_vs_iceberg_vs_hudi.ipynb
 │   ├── 08_benchmark_delta_vs_iceberg_vs_hudi_advanced.ipynb
+│   ├── 09_real_world_pipeline_delta_vs_hudi.ipynb
+│   ├── 10_pyspark_performance_optimization.ipynb
 │   │
 │   ├── gluten_velox/                        ← Gluten/Velox deep dives
 │   │   ├── README.md
@@ -201,6 +203,10 @@ spark-cluster/
 | 04 | Streaming, UDF, AQE | structured streaming, pandas UDF, explain() |
 | 05 | Generate Benchmark Data | TPC-H style data generation in Spark |
 | 06 | Benchmark Vanilla vs Gluten | TPC-H queries, timing, comparison chart |
+| 07 | Benchmark Delta vs Iceberg vs Hudi | Basic write/read benchmark across lakehouse formats |
+| 08 | Benchmark Advanced (Delta vs Iceberg vs Hudi) | MERGE/UPSERT, file layout, small files, EXPLAIN plans, charts |
+| 09 | Real-world Pipeline (Delta vs Hudi) | Bronze/Silver pipeline, MERGE vs UPSERT, CDC vs incremental queries |
+| 10 | PySpark Performance Optimization | partitioning, caching, broadcast joins, filter pushdown, shuffle tuning |
 
 ### `gluten_velox/` — Gluten/Velox deep dives
 
