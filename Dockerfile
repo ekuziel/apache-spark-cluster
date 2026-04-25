@@ -10,9 +10,11 @@
 FROM spark:4.0.2-scala2.13-java17-python3-ubuntu
 
 ARG GLUTEN_VERSION=1.6.0
+ARG HUDI_VERSION=1.1.1
 
 ENV SPARK_VERSION=4.0.2
 ENV GLUTEN_VERSION=${GLUTEN_VERSION}
+ENV HUDI_VERSION=${HUDI_VERSION}
 ENV SPARK_LOG_DIR=/opt/spark/logs
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
@@ -46,7 +48,7 @@ RUN pip3 install --no-cache-dir \
  && pip3 install --no-cache-dir --no-deps delta-spark==4.0.1
 
 # ---------------------------------------------------------------------------
-# Iceberg + Delta + Avro JARs (Spark 4.0 / Scala 2.13)
+# Iceberg + Delta + Avro + Hudi JARs (Spark 4.0 / Scala 2.13)
 # ---------------------------------------------------------------------------
 RUN curl -fsSL \
     "https://repo1.maven.org/maven2/org/apache/iceberg/iceberg-spark-runtime-4.0_2.13/1.10.1/iceberg-spark-runtime-4.0_2.13-1.10.1.jar" \
@@ -59,7 +61,10 @@ RUN curl -fsSL \
     -o "${SPARK_HOME}/jars/delta-storage-4.0.1.jar" \
  && curl -fsSL \
     "https://repo1.maven.org/maven2/org/apache/spark/spark-avro_2.13/4.0.2/spark-avro_2.13-4.0.2.jar" \
-    -o "${SPARK_HOME}/jars/spark-avro_2.13-4.0.2.jar"
+    -o "${SPARK_HOME}/jars/spark-avro_2.13-4.0.2.jar" \
+ && curl -fsSL \
+    "https://repo1.maven.org/maven2/org/apache/hudi/hudi-spark4.0-bundle_2.13/${HUDI_VERSION}/hudi-spark4.0-bundle_2.13-${HUDI_VERSION}.jar" \
+    -o "${SPARK_HOME}/jars/hudi-spark4.0-bundle_2.13-${HUDI_VERSION}.jar"
 
 # ---------------------------------------------------------------------------
 # Gluten/Velox JAR — extracted from official Apache binary tarball

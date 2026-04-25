@@ -1,4 +1,4 @@
-# CSV Basics — 10 Notebooks
+# CSV Basics
 
 Complete guide to reading, writing, and processing CSV files with Apache Spark.
 

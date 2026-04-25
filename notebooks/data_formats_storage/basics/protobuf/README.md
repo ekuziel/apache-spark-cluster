@@ -1,4 +1,4 @@
-# Protobuf Basics — 10 Notebooks
+# Protobuf Basics
 
 | # | Notebook | Topics |
 |---|---|---|

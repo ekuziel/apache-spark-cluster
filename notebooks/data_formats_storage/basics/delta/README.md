@@ -1,4 +1,4 @@
-# Delta Lake Basics — 10 Notebooks
+# Delta Lake Basics
 
 Complete guide to Delta Lake from first table to production maintenance.
 

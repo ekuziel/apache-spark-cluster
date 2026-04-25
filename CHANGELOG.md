@@ -7,6 +7,29 @@ All notable changes follow [Semantic Versioning](https://semver.org/):
 
 ---
 
+## [1.1.6]
+
+### Added — Hudi basics (10 notebooks)
+
+#### `data_formats_storage/basics/hudi/`
+- `01_hudi_setup_basic_crud` — COW table, insert/read, Hudi metadata columns, table structure
+- `02_hudi_upserts_duplicate_handling` — Upserts, duplicate keys, precombine logic, latest record resolution, time travel basics
+- `03_hudi_deletes_soft_deletes` — Hard delete vs soft delete pattern, tombstones, logical delete strategy
+- `04_hudi_merge_on_read_compaction` — MOR tables, delta logs vs base files, snapshot vs read-optimized queries, inline compaction
+- `05_hudi_schema_evolution` — Add columns, backward compatibility, null handling for older records
+- `06_hudi_time_travel_audit` — Commit timeline, time travel via commit instants, audit trail patterns
+- `07_hudi_incremental_queries_cdc` — Incremental queries, CDC pattern, begin/end commit logic, low isolation reads
+- `08_hudi_partitioning_data_skipping` — Partitioning strategy, metadata table, data skipping, explain plan verification
+- `09_hudi_structured_streaming` — Structured Streaming sink, checkpointing, continuous upserts into Hudi
+- `10_hudi_production_best_practices_monitoring` — Production configs, metadata indexing, commit monitoring, cleaning, scaling
+
+### Stack update
+
+- Added **Apache Hudi 1.1.1**
+  - `hudi-spark4.0-bundle_2.13:1.1.1`
+  - Compatible with Spark 4.0.x (Scala 2.13)
+	
+
 ## [1.1.5]
 
 ### Added — Training notebooks

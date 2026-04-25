@@ -1,4 +1,4 @@
-# Apache Spark 4.0.2 — Local Cluster with Gluten/Velox, Iceberg, Delta, Avro, JupyterLab
+# Apache Spark 4.0.2 — Local Cluster with Gluten/Velox, Iceberg, Delta, Avro, Hudi, JupyterLab
 
 A local development environment for testing and benchmarking Spark features and performance.
 
@@ -16,6 +16,7 @@ A local development environment for testing and benchmarking Spark features and 
 | Apache Iceberg | **1.10.1** | `iceberg-spark-runtime-4.0_2.13` |
 | Delta Lake | **4.0.1** | `delta-spark_2.13` |
 | Apache Avro | **4.0.2** | `spark-avro_2.13` — required for `format("avro")` |
+| Apache Hudi | **1.1.1** | `hudi-spark4.0-bundle_2.13` |
 | JupyterLab | latest | |
 | Base OS | Ubuntu 22.04 | |
 
@@ -33,6 +34,7 @@ All JARs are downloaded at Docker build time into `${SPARK_HOME}/jars/`.
 | `delta-storage` | 4.0.1 | Delta Lake storage abstraction layer | ✅ Yes — required by delta-spark |
 | `spark-avro_2.13` | 4.0.2 | Avro read/write (`format("avro")`) | ✅ Yes — auto-loaded from jars/ |
 | `gluten-velox-bundle-spark4.0_2.13` | 1.6.0 | Gluten native execution engine | ⚙️ Only in `make up-gluten` mode |
+| `hudi-spark4.0-bundle_2.13` | 1.1.1 | Hudi data lake framework  | ✅ Yes — auto-loaded from jars/ |
 
 ### Spark extensions activated in `spark-defaults.conf`
 
@@ -148,14 +150,15 @@ spark-cluster/
 │   │   ├── 07_avro_schema_registry.ipynb
 │   │   └── basics/
 │   │       ├── README.md
-│   │       ├── csv/       (10 notebooks)
-│   │       ├── delta/     (10 notebooks)
-│   │       ├── parquet/   (10 notebooks)
-│   │       ├── iceberg/   (10 notebooks)
-│   │       ├── avro/      (10 notebooks)
-│   │       ├── orc/       (10 notebooks)
-│   │       ├── json/      (10 notebooks)
-│   │       └── protobuf/  (10 notebooks)
+│   │       ├── csv/
+│   │       ├── delta/
+│   │       ├── parquet/
+│   │       ├── hudi/
+│   │       ├── iceberg/
+│   │       ├── avro/
+│   │       ├── orc/
+│   │       ├── json/
+│   │       └── protobuf/
 │   │
 │   ├── streaming/                           ← Structured Streaming
 │   │   ├── README.md
@@ -270,6 +273,21 @@ spark-cluster/
 | `08_change_data_feed` | CDF enable/read, incremental pipeline, UPDATE with DeltaTable API (no LIMIT/subquery) |
 | `09_partitioning` | Hive-style partitioning, Liquid Clustering, getattr() instead of Row.get() |
 | `10_maintenance` | VACUUM — retentionDurationCheck must be disabled BEFORE VACUUM RETAIN 0 HOURS |
+
+### `basics/hudi/` — Apache Hudi data lake framework
+
+| Notebook | What you will learn |
+|---|---|
+| `01_hudi_setup_basic_crud` | COW tables, insert/read, Hudi metadata columns, table structure |
+| `02_hudi_upserts_duplicate_handling` | Upserts, duplicate handling, precombine logic, latest record selection |
+| `03_hudi_deletes_soft_deletes` | Hard vs soft deletes, tombstones, logical delete pattern |
+| `04_hudi_merge_on_read_compaction` | MOR tables, delta logs, snapshot vs read-optimized queries, compaction |
+| `05_hudi_schema_evolution` | Schema evolution, adding columns, backward compatibility |
+| `06_hudi_time_travel_audit` | Time travel, commit instants, audit trail |
+| `07_hudi_incremental_queries_cdc` | Incremental queries, CDC pipelines, commit checkpoints |
+| `08_hudi_partitioning_data_skipping` | Partitioning strategy, metadata index, data skipping |
+| `09_hudi_structured_streaming` | Structured Streaming sink, checkpointing, micro-batches |
+| `10_hudi_production_best_practices_monitoring` | Production tuning, monitoring, cleaning, scaling |
 
 ### `basics/iceberg/` — Apache Iceberg open table format
 
