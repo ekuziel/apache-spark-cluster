@@ -6,6 +6,38 @@ All notable changes follow [Semantic Versioning](https://semver.org/):
 - **PATCH** — bug fixes, documentation, CI improvements
 
 ---
+## [1.1.9]
+
+### Added — Kafka local cluster support
+
+#### Stack
+- Added **Apache Kafka 3.9.1**
+  - Scala 2.13 distribution / KRaft mode, no ZooKeeper
+  - Internal broker: `kafka:9092` / Host broker: `localhost:9094`
+
+- Added **Kafka UI**
+  - Available at `http://localhost:8090`
+
+#### Spark Kafka integration
+- Added Spark Kafka connector JARs for Spark 4.0.2:
+  - `spark-sql-kafka-0-10_2.13:4.0.2`
+  - `spark-token-provider-kafka-0-10_2.13:4.0.2`
+  - `kafka-clients:3.9.1`
+
+#### Docker / Makefile
+- Added `kafka.Dockerfile`
+- Added `docker-compose.kafka.yml`
+- Added Kafka Makefile targets:
+  - `make up-kafka`
+  - `make down-kafka`
+  - `make logs-kafka`
+  - `make kafka-topics`
+
+### Notes
+- `make up` remains unchanged and starts Spark without Kafka.
+- Kafka is optional and only starts through the Kafka-specific compose override.
+
+	
 ## [1.1.8]
 
 ### Added — Real-world pipeline and PySpark optimization notebooks

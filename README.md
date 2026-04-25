@@ -1,4 +1,4 @@
-# Apache Spark 4.0.2 — Local Cluster with Gluten/Velox, Iceberg, Delta, Avro, Hudi, JupyterLab
+# Apache Spark 4.0.2 — Local Cluster with Gluten/Velox, Kafka, Iceberg, Delta, Avro, Hudi, JupyterLab
 
 A local development environment for testing and benchmarking Spark features and performance.
 
@@ -6,19 +6,24 @@ A local development environment for testing and benchmarking Spark features and 
 |---|---|---|
 | **Vanilla** | `make up` | Standard JVM-based Spark execution |
 | **Gluten/Velox** | `make up-gluten` | Native columnar execution via Gluten 1.6.0 + Velox |
+| **Kafka** | `make up-kafka` |  with Kafka broker + Kafka UI |
 
 ## Stack
 
 | Component | Version | Notes |
 |---|---|---|
-| Apache Spark | **4.0.2** | Scala 2.13, Java 17 |
-| Apache Gluten | **1.6.0** | Velox backend — supports Spark 4.0.x |
-| Apache Iceberg | **1.10.1** | `iceberg-spark-runtime-4.0_2.13` |
-| Delta Lake | **4.0.1** | `delta-spark_2.13` |
-| Apache Avro | **4.0.2** | `spark-avro_2.13` — required for `format("avro")` |
-| Apache Hudi | **1.1.1** | `hudi-spark4.0-bundle_2.13` |
-| JupyterLab | latest | |
-| Base OS | Ubuntu 22.04 | |
+| Apache Spark | **4.0.2** | Scala 2.13, Java 17 — https://archive.apache.org/dist/spark/spark-4.0.2/ |
+| Apache Gluten | **1.6.0** | Velox backend — supports Spark 4.0.x — https://repo1.maven.org/maven2/org/apache/gluten/ |
+| Apache Iceberg | **1.10.1** | `iceberg-spark-runtime-4.0_2.13` — https://repo1.maven.org/maven2/org/apache/iceberg/iceberg-spark-runtime-4.0_2.13/1.10.1/ |
+| Delta Lake | **4.0.1** | `delta-spark_2.13` — https://repo1.maven.org/maven2/io/delta/delta-spark_2.13/4.0.1/ |
+| Apache Avro | **4.0.2** | `spark-avro_2.13` — https://repo1.maven.org/maven2/org/apache/spark/spark-avro_2.13/4.0.2/ |
+| Apache Hudi | **1.1.1** | `hudi-spark4.0-bundle_2.13` — https://repo1.maven.org/maven2/org/apache/hudi/hudi-spark4.0-bundle_2.13/1.1.1/ |
+| Apache Kafka | **3.9.1** | KRaft mode, Scala 2.13 — https://archive.apache.org/dist/kafka/3.9.1/ |
+| Kafka UI | **1.2.0** | `ghcr.io/kafbat/kafka-ui:v1.2.0` — https://github.com/kafbat/kafka-ui |
+| Spark Kafka Connector | **4.0.2** | `spark-sql-kafka-0-10_2.13` — https://repo1.maven.org/maven2/org/apache/spark/spark-sql-kafka-0-10_2.13/4.0.2/ |
+| JupyterLab | **4.x** | https://jupyter.org/ |
+
+| Base OS | Ubuntu 22.04 | https://releases.ubuntu.com/22.04/ |
 
 > **Note:** Gluten 1.6.0 was tested against Spark 4.0.1. Running on 4.0.2 produces a harmless
 > `version not matched` warning — everything works correctly.
@@ -35,6 +40,9 @@ All JARs are downloaded at Docker build time into `${SPARK_HOME}/jars/`.
 | `spark-avro_2.13` | 4.0.2 | Avro read/write (`format("avro")`) | ✅ Yes — auto-loaded from jars/ |
 | `gluten-velox-bundle-spark4.0_2.13` | 1.6.0 | Gluten native execution engine | ⚙️ Only in `make up-gluten` mode |
 | `hudi-spark4.0-bundle_2.13` | 1.1.1 | Hudi data lake framework  | ✅ Yes — auto-loaded from jars/ |
+| `spark-sql-kafka-0-10_2.13` | 4.0.2 | Spark Structured Streaming Kafka source/sink | ✅ Yes — auto-loaded from jars/ |
+| `spark-token-provider-kafka-0-10_2.13` | 4.0.2 | Kafka delegation token provider for Spark | ✅ Yes — required by Spark Kafka connector |
+| `kafka-clients` | 3.9.1 | Kafka client driver used by Spark connector | ✅ Yes — required by Spark Kafka connector |
 
 ### Spark extensions activated in `spark-defaults.conf`
 
@@ -64,6 +72,8 @@ they are part of Spark core or auto-loaded from the jars directory.
 │                                                          │
 │  spark-history  :18080                                   │
 │  notebook       :8888  (JupyterLab)  :4040 (App UI)      │
+│  kafka          :9092  (internal)    :9094 (host)        │
+│  kafka-ui       :8090                                    │
 └──────────────────────────────────────────────────────────┘
 ```
 
@@ -103,13 +113,28 @@ make notebook      # → http://localhost:8888  token: spark
 | History Server | http://localhost:18080 |
 | JupyterLab | http://localhost:8888 (token: `spark`) |
 | Spark App UI | http://localhost:4040 (active job only) |
+| Kafka UI | http://localhost:8090 |
+
+
+## Kafka Notes
+
+- Kafka runs in KRaft mode, without ZooKeeper.
+- Internal Docker network bootstrap server: `kafka:9092`
+- Host bootstrap server: `localhost:9094`
+- Kafka UI is available at `http://localhost:8090`
+- Spark uses `spark-sql-kafka-0-10_2.13:4.0.2` with Spark 4.0.2 / Scala 2.13.
+- Kafka is optional: `make up` starts Spark without Kafka, while `make up-kafka` starts the full Spark + Kafka stack.
+
+
 
 ## Project Structure
 
 ```
 spark-cluster/
 ├── Dockerfile
+├── kafka.Dockerfile
 ├── docker-compose.yml
+├── docker-compose.kafka.yml
 ├── docker-compose.override.yml
 ├── entrypoint.sh
 ├── Makefile
@@ -453,11 +478,15 @@ make init          # create directories, copy .env.example → .env
 make build         # docker compose build
 make up            # start vanilla cluster
 make up-gluten     # start Gluten/Velox cluster
+make up-kafka       # start Spark cluster with Kafka + Kafka UI
 make down          # stop cluster
+make down-kafka     # stop Kafka services
 make logs          # tail spark-master logs
+make logs-kafka     # tail Kafka logs
 make status        # docker compose ps
 make data          # generate TPC-H benchmark data
 make clean         # stop + delete data
 make nuke          # remove all images + builder cache
 make notebook      # open JupyterLab in browser
+make kafka-topics   # list Kafka topics
 ```
