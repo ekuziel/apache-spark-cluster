@@ -125,6 +125,8 @@ spark-cluster/
 │   ├── 04_streaming_udf_aqe.ipynb
 │   ├── 05_generate_benchmark_data.ipynb
 │   ├── 06_benchmark_vanilla_vs_gluten.ipynb
+│   ├── 07_benchmark_delta_vs_iceberg_vs_hudi.ipynb
+│   ├── 08_benchmark_delta_vs_iceberg_vs_hudi_advanced.ipynb
 │   │
 │   ├── gluten_velox/                        ← Gluten/Velox deep dives
 │   │   ├── README.md
