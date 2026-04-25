@@ -6,6 +6,13 @@ All notable changes follow [Semantic Versioning](https://semver.org/):
 - **PATCH** — bug fixes, documentation, CI improvements
 
 ---
+## [1.1.7]
+
+### Added — Benchmarks (Delta vs Iceberg vs Hudi)
+
+#### `notebooks/`
+- `07_benchmark_delta_vs_iceberg_vs_hudi` - Initial write performance comparison / Read performance comparison / Basic multi-format benchmark
+- `08_benchmark_delta_vs_iceberg_vs_hudi_advanced` - MERGE / UPSERT performance comparison / File count and small files analysis / Storage size comparison (Parquet vs metadata overhead) / Predicate pushdown and partition pruning verification (`explain(True)`) / Runtime benchmarking across operations / Visualization using matplotlib
 
 ## [1.1.6]
 
