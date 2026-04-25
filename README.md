@@ -195,47 +195,51 @@ spark-cluster/
 
 ### Core notebooks
 
-| # | Notebook | Topic |
-|---|---|---|
-| 01 | DataFrame Basics | DataFrame API, SQL, window functions, CTEs |
-| 02 | Caching & Partitioning | persist, broadcast join, partitioning strategies |
-| 03 | Parquet / Iceberg / Delta | formats, ACID, time travel, MERGE |
-| 04 | Streaming, UDF, AQE | structured streaming, pandas UDF, explain() |
-| 05 | Generate Benchmark Data | TPC-H style data generation in Spark |
-| 06 | Benchmark Vanilla vs Gluten | TPC-H queries, timing, comparison chart |
-| 07 | Benchmark Delta vs Iceberg vs Hudi | Basic write/read benchmark across lakehouse formats |
-| 08 | Benchmark Advanced (Delta vs Iceberg vs Hudi) | MERGE/UPSERT, file layout, small files, EXPLAIN plans, charts |
-| 09 | Real-world Pipeline (Delta vs Hudi) | Bronze/Silver pipeline, MERGE vs UPSERT, CDC vs incremental queries |
-| 10 | PySpark Performance Optimization | partitioning, caching, broadcast joins, filter pushdown, shuffle tuning |
+| # | Notebook | Topic | Level |
+|---|---|---|---|
+| 01 | DataFrame Basics | DataFrame API, SQL, window functions, CTEs | Beginner |
+| 02 | Caching & Partitioning | persist, broadcast join, partitioning strategies | Beginner |
+| 03 | Parquet / Iceberg / Delta | formats, ACID, time travel, MERGE | Intermediate |
+| 04 | Streaming, UDF, AQE | structured streaming, pandas UDF, explain() | Intermediate |
+| 05 | Generate Benchmark Data | TPC-H style data generation in Spark | Intermediate |
+| 06 | Benchmark Vanilla vs Gluten | TPC-H queries, timing, comparison chart | Advanced |
+| 07 | Benchmark Delta vs Iceberg vs Hudi | Basic write/read benchmark across lakehouse formats | Intermediate |
+| 08 | Benchmark Advanced (Delta vs Iceberg vs Hudi) | MERGE/UPSERT, file layout, small files, EXPLAIN plans, charts | Advanced |
+| 09 | Real-world Pipeline (Delta vs Hudi) | Bronze/Silver pipeline, MERGE vs UPSERT, CDC vs incremental queries | Production |
+| 10 | PySpark Performance Optimization | partitioning, caching, broadcast joins, filter pushdown, shuffle tuning | Production |
+
 
 ### `gluten_velox/` — Gluten/Velox deep dives
 
-| Notebook | What you will learn |
-|---|---|
-| `01_fallback_analysis` | Which operators offload to Velox vs fall back to JVM, how to measure offload rate, why Python UDFs always fall back, decision tree for writing Gluten-friendly queries |
-| `02_velox_performance_deep_dive` | Why Velox is faster (SIMD, columnar, native Parquet), 18-query benchmark across scan/filter/agg/join/sort/string, vanilla vs Gluten speedup report with median/p25/p75 |
-| `03_off_heap_memory` | Three memory pools (on-heap/off-heap/overhead/Velox native), GC pressure profiling, Tungsten off-heap config, Velox memory tuning, OOM diagnosis guide |
+| Notebook | What you will learn | Level |
+|---|---|---|
+| `01_fallback_analysis` | Which operators offload to Velox vs fall back to JVM, how to measure offload rate, why Python UDFs always fall back, decision tree for writing Gluten-friendly queries | Advanced |
+| `02_velox_performance_deep_dive` | Why Velox is faster (SIMD, columnar, native Parquet), 18-query benchmark across scan/filter/agg/join/sort/string, vanilla vs Gluten speedup report with median/p25/p75 | Advanced |
+| `03_off_heap_memory` | Three memory pools (on-heap/off-heap/overhead/Velox native), GC pressure profiling, Tungsten off-heap config, Velox memory tuning, OOM diagnosis guide | Production |
+
 
 ### `performance_internals/` — Query planning & optimization
 
-| Notebook | What you will learn |
-|---|---|
-| `01_query_plan_deep_dive` | All `explain()` modes, reading physical plans, predicate pushdown into Parquet, join strategy selection, Spark UI guide |
-| `02_aqe_deep_dive` | All 3 AQE features: partition coalescing, dynamic join conversion, skew join splitting — each with hands-on benchmarks |
-| `03_memory_management` | Full executor memory model, storage vs execution memory, shuffle spill, off-heap, broadcast variables, GC tuning |
-| `04_join_strategies` | All 5 join strategies benchmarked, BroadcastHashJoin vs SortMergeJoin vs ShuffledHashJoin, join hints, skew handling (AQE + manual salting) |
+| Notebook | What you will learn | Level |
+|---|---|---|
+| `01_query_plan_deep_dive` | All `explain()` modes, reading physical plans, predicate pushdown into Parquet, join strategy selection, Spark UI guide | Advanced |
+| `02_aqe_deep_dive` | All 3 AQE features: partition coalescing, dynamic join conversion, skew join splitting — each with hands-on benchmarks | Advanced |
+| `03_memory_management` | Full executor memory model, storage vs execution memory, shuffle spill, off-heap, broadcast variables, GC tuning | Production |
+| `04_join_strategies` | All 5 join strategies benchmarked, BroadcastHashJoin vs SortMergeJoin vs ShuffledHashJoin, join hints, skew handling (AQE + manual salting) | Advanced |
+
 
 ### `data_formats_storage/` — File formats & storage
 
-| Notebook | What you will learn |
-|---|---|
-| `01_format_benchmark` | Row vs columnar formats, Parquet/ORC/Avro/CSV write+read benchmark, column pruning, predicate pushdown, compression codec comparison |
-| `02_iceberg_advanced` | ACID transactions, MERGE INTO, time travel, schema evolution, partition evolution, row-level DELETE/UPDATE, snapshot management, branching & tagging |
-| `03_delta_advanced` | Transaction log internals, OPTIMIZE, ZORDER, VACUUM, Change Data Feed, time travel, RESTORE, schema enforcement/evolution, generated columns, data skipping |
-| `04_iceberg_advanced_2` | CDF for CDC pipelines, branching workflow (dev/staging/prod), MoR vs CoW compaction, metadata tables, row-level delete strategies |
-| `05_delta_advanced_2` | Liquid Clustering vs ZORDER, Deletion Vectors, low-shuffle MERGE, dynamic partition overwrite, shallow/deep clone |
-| `06_parquet_internals` | Row groups, column chunks, encoding schemes (dict/RLE/delta), column statistics, data skipping, row group size tuning |
-| `07_avro_schema_registry` | Avro format, schema evolution (backward/forward/full compatibility), Schema Registry pattern, Kafka→Avro→Parquet pipeline, Avro vs Parquet benchmark |
+| Notebook | What you will learn | Level |
+|---|---|---|
+| `01_format_benchmark` | Row vs columnar formats, Parquet/ORC/Avro/CSV write+read benchmark, column pruning, predicate pushdown, compression codec comparison | Intermediate |
+| `02_iceberg_advanced` | ACID transactions, MERGE INTO, time travel, schema evolution, partition evolution, row-level DELETE/UPDATE, snapshot management, branching & tagging | Advanced |
+| `03_delta_advanced` | Transaction log internals, OPTIMIZE, ZORDER, VACUUM, Change Data Feed, time travel, RESTORE, schema enforcement/evolution, generated columns, data skipping | Advanced |
+| `04_iceberg_advanced_2` | CDF for CDC pipelines, branching workflow (dev/staging/prod), MoR vs CoW compaction, metadata tables, row-level delete strategies | Production |
+| `05_delta_advanced_2` | Liquid Clustering vs ZORDER, Deletion Vectors, low-shuffle MERGE, dynamic partition overwrite, shallow/deep clone | Production |
+| `06_parquet_internals` | Row groups, column chunks, encoding schemes (dict/RLE/delta), column statistics, data skipping, row group size tuning | Advanced |
+| `07_avro_schema_registry` | Avro format, schema evolution (backward/forward/full compatibility), Schema Registry pattern, Kafka→Avro→Parquet pipeline, Avro vs Parquet benchmark | Production |
+
 
 ### `basics/csv/` — CSV for ETL and data exchange
 
@@ -252,6 +256,7 @@ spark-cluster/
 | `09_csv_to_parquet` | Landing zone → Parquet pipeline, partitioning, validation |
 | `10_streaming_csv` | File-based CSV streaming, _corrupt_record in schema required for PERMISSIVE mode |
 
+
 ### `basics/parquet/` — Parquet for analytics storage
 
 | Notebook | What you will learn |
@@ -266,6 +271,7 @@ spark-cluster/
 | `08_compression_codecs` | snappy vs zstd vs gzip vs lz4 — size/speed tradeoffs |
 | `09_nested_data` | StructType/ArrayType/MapType, explode, groupBy on nested fields via F.col() |
 | `10_performance_tuning` | Diagnosis checklist, cache before loop pattern, before/after benchmark |
+
 
 ### `basics/delta/` — Delta Lake for ACID data lakes
 
@@ -282,6 +288,7 @@ spark-cluster/
 | `09_partitioning` | Hive-style partitioning, Liquid Clustering, getattr() instead of Row.get() |
 | `10_maintenance` | VACUUM — retentionDurationCheck must be disabled BEFORE VACUUM RETAIN 0 HOURS |
 
+
 ### `basics/hudi/` — Apache Hudi data lake framework
 
 | Notebook | What you will learn |
@@ -296,6 +303,7 @@ spark-cluster/
 | `08_hudi_partitioning_data_skipping` | Partitioning strategy, metadata index, data skipping |
 | `09_hudi_structured_streaming` | Structured Streaming sink, checkpointing, micro-batches |
 | `10_hudi_production_best_practices_monitoring` | Production tuning, monitoring, cleaning, scaling |
+
 
 ### `basics/iceberg/` — Apache Iceberg open table format
 
@@ -312,6 +320,7 @@ spark-cluster/
 | `09_maintenance` | rewrite_data_files, expire_snapshots, remove_orphan_files, cache-before-loop pattern |
 | `10_metadata_tables` | snapshots/files/manifests/history metadata tables, UPDATE workarounds |
 
+
 ### `basics/avro/` — Avro for Kafka streaming pipelines
 
 | Notebook | What you will learn |
@@ -326,6 +335,7 @@ spark-cluster/
 | `08_avro_vs_parquet` | Size/speed benchmark, schema registry pattern, when to use each |
 | `09_avro_to_parquet` | Landing zone pipeline, .load(list) syntax, validation |
 | `10_avro_compression` | Codec benchmark (null/snappy/deflate/bzip2), size vs speed tradeoffs |
+
 
 ### `basics/orc/` — ORC for Hive ecosystem workloads
 
@@ -342,6 +352,7 @@ spark-cluster/
 | `09_orc_to_parquet` | Migration pipeline, validation, performance comparison after migration |
 | `10_performance_tuning` | Diagnosis, optimization checklist, price column (not revenue), before/after benchmark |
 
+
 ### `basics/json/` — JSON for APIs and logs
 
 | Notebook | What you will learn |
@@ -356,6 +367,7 @@ spark-cluster/
 | `08_json_rest_apis` | Wrapped/paginated API responses, unwrap with explode, normalization |
 | `09_json_to_parquet` | Multi-day landing zone, incremental checkpoint, row count validation |
 | `10_json_best_practices` | Schema management, deduplication, production checklist, pitfalls |
+
 
 ### `basics/protobuf/` — Protobuf for gRPC and Kafka
 
@@ -374,33 +386,34 @@ spark-cluster/
 
 ### `streaming/` — Structured Streaming
 
-| Notebook | What you will learn |
-|---|---|
-| `01_structured_streaming_fundamentals` | Stream-as-table model, file/memory sources, output modes, watermarking, sliding windows, checkpointing, metrics monitoring |
-| `02_streaming_iceberg` | Exactly-once writes to Iceberg, atomic snapshot commits per micro-batch, time travel on streaming data, aggregated streaming sinks, online compaction |
-| `03_stateful_operations` | Session windows, `mapGroupsWithState` for user stats & VIP detection, `flatMapGroupsWithState` for funnel analysis, state timeouts, RocksDB state store |
+| Notebook | What you will learn | Level |
+|---|---|---|
+| `01_structured_streaming_fundamentals` | Stream-as-table model, file/memory sources, output modes, watermarking, sliding windows, checkpointing, metrics monitoring | Intermediate |
+| `02_streaming_iceberg` | Exactly-once writes to Iceberg, atomic snapshot commits per micro-batch, time travel on streaming data, aggregated streaming sinks, online compaction | Production |
+| `03_stateful_operations` | Session windows, mapGroupsWithState, flatMapGroupsWithState, state timeouts, RocksDB state store | Production |
+
 
 ### `configuration/` — Spark configuration
 
-| Notebook | What you will learn |
-|---|---|
-| `01_active_configuration` | All explicitly configured parameters from `spark-defaults.conf` — live values from SparkSession, category (Cluster/SQL/AQE/Catalog/Shuffle/JVM), explanation |
-| `02_all_parameters` | All Spark parameters including defaults — filter by prefix, keyword search, explicitly set vs default comparison, CSV export |
+| Notebook | What you will learn | Level |
+|---|---|---|
+| `01_active_configuration` | All explicitly configured parameters from spark-defaults.conf — live values, categories, explanation | Intermediate |
+| `02_all_parameters` | All Spark parameters including defaults — filtering, comparison, export | Advanced |
 
 
 ### `training/` — Databricks Spark Developer Certification Prep
 
 **Target:** Databricks Certified Associate Developer for Apache Spark
 
-| Notebook | Exam Topic | Weight |
-|---|---|---|
-| `01_spark_architecture` | Driver/executor, deployment modes, lazy evaluation, fault tolerance, GC | ~17% |
-| `02_dataframe_api` | select/filter/sort/agg/join/union/missing data/repartition — largest section | ~35% |
-| `03_spark_sql` | Temp views, window functions (rank/dense_rank/lag/lead), Catalyst optimizer | ~15% |
-| `04_udfs` | Python UDF, Pandas UDF (vectorized), built-in functions vs UDF performance | ~10% |
-| `05_structured_streaming` | Output modes (append/complete/update), triggers, checkpointLocation, watermarking | ~13% |
-| `06_performance_optimization` | Caching/persist, broadcast joins, AQE, data skew, explain() | ~15% |
-| `07_pandas_api_on_spark` | pyspark.pandas API, df.pandas_api(), to_spark(index_col=...), toPandas() driver memory warning | ~5% |
+| Notebook | Exam Topic | Weight | Level |
+|---|---|---|---|
+| `01_spark_architecture` | Driver/executor, deployment modes, lazy evaluation, fault tolerance, GC | ~17% | Beginner |
+| `02_dataframe_api` | select/filter/sort/agg/join/union/missing data/repartition | ~35% | Beginner |
+| `03_spark_sql` | Temp views, window functions, Catalyst optimizer | ~15% | Intermediate |
+| `04_udfs` | Python UDF, Pandas UDF, performance | ~10% | Intermediate |
+| `05_structured_streaming` | Output modes, triggers, checkpointing, watermarking | ~13% | Intermediate |
+| `06_performance_optimization` | Caching, broadcast joins, AQE, skew, explain() | ~15% | Advanced |
+| `07_pandas_api_on_spark` | pandas API, conversions, driver limits | ~5% | Intermediate |
 
 
 ## Docs & Troubleshooting
