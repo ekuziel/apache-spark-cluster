@@ -8,6 +8,7 @@ A local development environment for testing and benchmarking Spark features and 
 | **Gluten/Velox** | `make up-gluten` | Native columnar execution via Gluten 1.6.0 + Velox |
 | **Kafka** | `make up-kafka` |  with Kafka broker + Kafka UI |
 
+
 ## Stack
 
 | Component | Version | Notes |
@@ -22,11 +23,11 @@ A local development environment for testing and benchmarking Spark features and 
 | Kafka UI | **1.2.0** | `ghcr.io/kafbat/kafka-ui:v1.2.0` — https://github.com/kafbat/kafka-ui |
 | Spark Kafka Connector | **4.0.2** | `spark-sql-kafka-0-10_2.13` — https://repo1.maven.org/maven2/org/apache/spark/spark-sql-kafka-0-10_2.13/4.0.2/ |
 | JupyterLab | **4.x** | https://jupyter.org/ |
-
 | Base OS | Ubuntu 22.04 | https://releases.ubuntu.com/22.04/ |
 
 > **Note:** Gluten 1.6.0 was tested against Spark 4.0.1. Running on 4.0.2 produces a harmless
 > `version not matched` warning — everything works correctly.
+
 
 ## Deployed JARs
 
