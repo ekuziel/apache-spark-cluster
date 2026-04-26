@@ -71,7 +71,10 @@ they are part of Spark core or auto-loaded from the jars directory.
 │       └── spark-worker-2   :8082                         │
 │                                                          │
 │  spark-history  :18080                                   │
+│  spark-connect  :15002 (gRPC)                            │
+│                                                          │
 │  notebook       :8888  (JupyterLab)  :4040 (App UI)      │
+│                                                          │ 
 │  kafka          :9092  (internal)    :9094 (host)        │
 │  kafka-ui       :8090                                    │
 └──────────────────────────────────────────────────────────┘
@@ -113,6 +116,7 @@ make notebook      # → http://localhost:8888  token: spark
 | History Server | http://localhost:18080 |
 | JupyterLab | http://localhost:8888 (token: `spark`) |
 | Spark App UI | http://localhost:4040 (active job only) |
+| Spark Connect (gRPC) | sc://localhost:15002 |
 | Kafka UI | http://localhost:8090 |
 
 
@@ -154,6 +158,9 @@ spark-cluster/
 │   ├── 08_benchmark_delta_vs_iceberg_vs_hudi_advanced.ipynb
 │   ├── 09_real_world_pipeline_delta_vs_hudi.ipynb
 │   ├── 10_pyspark_performance_optimization.ipynb
+│   │
+│   ├── features/
+│   │   └── 01-powerful-spark-4.x-features.ipynb
 │   │
 │   ├── gluten_velox/                        ← Gluten/Velox deep dives
 │   │   ├── README.md
@@ -232,6 +239,14 @@ spark-cluster/
 | 08 | Benchmark Advanced (Delta vs Iceberg vs Hudi) | MERGE/UPSERT, file layout, small files, EXPLAIN plans, charts | Advanced |
 | 09 | Real-world Pipeline (Delta vs Hudi) | Bronze/Silver pipeline, MERGE vs UPSERT, CDC vs incremental queries | Production |
 | 10 | PySpark Performance Optimization | partitioning, caching, broadcast joins, filter pushdown, shuffle tuning | Production |
+
+
+
+### `features/` — Spark 4.x feature showcase
+
+| Notebook | What you will learn | Level |
+|---|---|---|
+| `01-powerful-spark-4.x-features` | End-to-end overview of modern Spark 4.x capabilities: AQE + DPP, Pandas API on Spark, Delta Lake (time travel, Z-Order), Structured Streaming (`foreachBatch`, `availableNow`), Iceberg (schema evolution, hidden partitioning), RAPIDS (GPU detection), Spark Connect (remote execution), and MLlib pipelines with optional ONNX export | Intermediate |
 
 
 ### `gluten_velox/` — Gluten/Velox deep dives

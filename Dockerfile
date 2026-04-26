@@ -45,6 +45,8 @@ RUN pip3 install --no-cache-dir \
     numpy \
     matplotlib \
     seaborn \
+    grpcio>=1.48.1 \
+    grpcio-status>=1.48.1 \
  && pip3 install --no-cache-dir --no-deps delta-spark==4.0.1
 
 # ---------------------------------------------------------------------------
