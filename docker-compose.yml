@@ -13,6 +13,7 @@
 #   spark-worker-2  — Worker 2                   :8083 (UI)
 #   spark-history   — History Server             :18080
 #   notebook        — JupyterLab                 :8888
+#   spark-connect   — Spark Connect (gRPC)       :15002
 #
 #   kafka           — Kafka broker               :9094 (host) / kafka:9092 (internal)
 #   kafka-ui        — Kafka UI                   :8090
