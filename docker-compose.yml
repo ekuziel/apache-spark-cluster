@@ -126,6 +126,39 @@ services:
       - "8888:8888"           # JupyterLab
       - "4040:4040"           # Spark App UI (active job)
 
+  # ── Spark Connect  ─────────────────────────────────────────────────────────
+  spark-connect:
+      <<: *spark-common
+      container_name: spark-connect
+      hostname: spark-connect
+      entrypoint: ["/opt/spark/bin/spark-submit"]
+      command:
+        - --class
+        - org.apache.spark.sql.connect.service.SparkConnectServer
+        - --master
+        - spark://spark-master:7077
+        - --conf
+        - spark.connect.grpc.binding.host=0.0.0.0
+        - --conf
+        - spark.connect.grpc.binding.port=15002
+        - --conf
+        - spark.cores.max=1
+        - --conf
+        - spark.executor.cores=1
+        - --conf
+        - spark.executor.memory=512m
+        - --conf
+        - spark.sql.shuffle.partitions=1
+      ports:
+        - "15002:15002"
+      depends_on:
+        spark-master:
+          condition: service_healthy
+        spark-worker-1:
+          condition: service_started
+        spark-worker-2:
+          condition: service_started
+
   # ── Kafka ─────────────────────────────────────────────────────────
   kafka:
     build:

@@ -6,6 +6,27 @@ All notable changes follow [Semantic Versioning](https://semver.org/):
 - **PATCH** — bug fixes, documentation, CI improvements
 
 ---
+## [1.1.10]
+
+### Added — Spark Connect + Spark 4.x features notebook
+
+#### Stack
+- Added **Spark Connect service**
+  - gRPC endpoint: `sc://spark-connect:15002`
+  - Remote DataFrame API support from notebooks
+
+#### `features/`
+- Added `01-powerful-spark-4.x-features` — unified showcase of Spark 4.x capabilities:
+
+#### Docker
+- Added `spark-connect` service to Docker Compose
+- Added required Python deps: `grpcio`, `grpcio-status`
+
+### Notes
+- Spark Connect runs as a separate Spark application and consumes cluster resources
+- `SPARK_CONNECT_REMOTE` must be set to `sc://spark-connect:15002` inside containers
+
+
 ## [1.1.9]
 
 ### Added — Kafka local cluster support
