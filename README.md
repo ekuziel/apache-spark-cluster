@@ -169,6 +169,9 @@ spark-cluster/
 │   │   ├── 02_velox_performance_deep_dive.ipynb
 │   │   └── 03_off_heap_memory.ipynb
 │   │
+│   ├── joins/                               ← Join patterns & strategies
+│   │   └── 00_joins.ipynb
+│   │
 │   ├── performance_internals/               ← Query planning & optimization
 │   │   ├── README.md
 │   │   ├── 01_query_plan_deep_dive.ipynb
@@ -257,6 +260,13 @@ spark-cluster/
 | `01_fallback_analysis` | Which operators offload to Velox vs fall back to JVM, how to measure offload rate, why Python UDFs always fall back, decision tree for writing Gluten-friendly queries | Advanced |
 | `02_velox_performance_deep_dive` | Why Velox is faster (SIMD, columnar, native Parquet), 18-query benchmark across scan/filter/agg/join/sort/string, vanilla vs Gluten speedup report with median/p25/p75 | Advanced |
 | `03_off_heap_memory` | Three memory pools (on-heap/off-heap/overhead/Velox native), GC pressure profiling, Tungsten off-heap config, Velox memory tuning, OOM diagnosis guide | Production |
+
+
+### `joins/` — Join patterns & strategies
+
+| Notebook | What you will learn | Level |
+|---|---|---|
+| `00_joins` | All join types, semi/anti joins, cross/self joins, multi-key joins, null handling, duplicate keys, broadcast joins, execution plans, skew handling (salting) | Intermediate → Advanced |
 
 
 ### `performance_internals/` — Query planning & optimization
