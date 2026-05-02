@@ -44,6 +44,7 @@ All JARs are downloaded at Docker build time into `${SPARK_HOME}/jars/`.
 | `spark-sql-kafka-0-10_2.13` | 4.0.2 | Spark Structured Streaming Kafka source/sink | ✅ Yes — auto-loaded from jars/ |
 | `spark-token-provider-kafka-0-10_2.13` | 4.0.2 | Kafka delegation token provider for Spark | ✅ Yes — required by Spark Kafka connector |
 | `kafka-clients` | 3.9.1 | Kafka client driver used by Spark connector | ✅ Yes — required by Spark Kafka connector |
+| `spark-measure_2.13` | 0.27 | Spark stage/task metrics (debugging & benchmarking) | ✅ Yes — auto-loaded from jars/ |
 
 ### Spark extensions activated in `spark-defaults.conf`
 
@@ -211,6 +212,13 @@ spark-cluster/
 │   │       ├── 05_incremental_load_idempotency.ipynb
 │   │       ├── 06_late_data_event_time.ipynb
 │   │       └── 07_broadcast_dimension_join.ipynb
+│   ├── extensions/                          ← JupyterLab + Spark extensions
+│   │   ├── README.md
+│   │   ├── 00_extensions.ipynb
+│   │   ├── 01_spark_extensions.ipynb
+│   │   ├── 02_spark_debugging.ipynb
+│   │   ├── 03_sparkmeasure.ipynb
+│   │   └── 04_sparkmeasure_explained.ipynb
 │   │
 │   ├── performance_internals/               ← Query planning & optimization
 │   │   ├── README.md
@@ -354,6 +362,15 @@ spark-cluster/
 | `05_incremental_load_idempotency` | Incremental load, left anti join, rerun-safe batch processing | Advanced |
 | `06_late_data_event_time` | Event time vs ingestion time, late data handling, late quarantine | Advanced |
 | `07_broadcast_dimension_join` | Enriching Silver events with small dimensions, broadcast joins, unknown dimension keys | Advanced |
+### `extensions/` — JupyterLab and Spark extensions
+
+| Notebook | What you will learn | Level |
+|---|---|---|
+| `00_extensions` | JupyterLab 4.x productivity tools: widgets, progress bars, interactive tables/charts, SQL helpers, notebook diffs, output stripping, formatting and linting | Intermediate |
+| `01_spark_extensions` | Spark-specific helper libraries and native PySpark diagnostics for validation, data quality checks, profiling and DataFrame testing | Intermediate |
+| `02_spark_debugging` | Practical Spark debugging patterns for plans, joins, AQE, skew, caching, partitioning and runtime comparison | Advanced |
+| `03_sparkmeasure` | sparkMeasure examples for stage/task metrics, shuffle, joins, caching, AQE and skew analysis | Advanced |
+| `04_sparkmeasure_explained` | How to interpret aggregated sparkMeasure metrics such as executor time, CPU time, GC, spill and shuffle read/write | Advanced |
 
 
 ### `performance_internals/` — Query planning & optimization
