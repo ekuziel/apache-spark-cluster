@@ -178,6 +178,40 @@ spark-cluster/
 │   │   ├── 04_skew_handling.ipynb
 │   │   └── 05_large_scale_join_benchmark.ipynb
 │   │
+│   ├── patterns/                            ← Reusable Spark pipeline patterns
+│   │   ├── README.md
+│   │   ├── 01_pydantic_spark_contracts.ipynb
+│   │   ├── 02_transform_pattern.ipynb
+│   │   ├── 03_config_driven_pipeline.ipynb
+│   │   ├── 04_rule_engine_pattern.ipynb
+│   │   ├── 05_column_mapping_pattern.ipynb
+│   │   ├── 06_audit_columns_pattern.ipynb
+│   │   ├── 07_data_contract_check_pattern.ipynb
+│   │   ├── 08_reusable_pipeline_function.ipynb
+│   │   ├── 09_multi_output_pattern.ipynb
+│   │   ├── 10_metrics_observability_pattern.ipynb
+│   │   ├── 11_schema_drift_guard.ipynb
+│   │   ├── 12_idempotent_upsert_pattern.ipynb
+│   │   ├── 13_partitioning_strategy_pattern.ipynb
+│   │   ├── 14_cache_persist_pattern.ipynb
+│   │   ├── 15_window_pattern.ipynb
+│   │   ├── 16_scd2_pattern.ipynb
+│   │   ├── 17_small_file_problem_pattern.ipynb
+│   │   ├── 18_checkpoint_pattern.ipynb
+│   │   ├── 19_join_optimization_pattern.ipynb
+│   │   ├── 20_data_skew_pattern.ipynb
+│   │   ├── 21_broadcast_vs_shuffle_pattern.ipynb
+│   │   ├── 22_pipeline_wrapper_pattern.ipynb
+│   │   └── medallion/                        ← Medallion architecture patterns
+│   │       ├── README.md
+│   │       ├── 00_basic.ipynb
+│   │       ├── 01_bronze_to_silver_quality.ipynb
+│   │       ├── 02_silver_dedup_quarantine.ipynb
+│   │       ├── 03_gold_aggregations.ipynb
+│   │       ├── 04_gold_star_schema.ipynb
+│   │       ├── 05_incremental_load_idempotency.ipynb
+│   │       ├── 06_late_data_event_time.ipynb
+│   │       └── 07_broadcast_dimension_join.ipynb
 │   ├── extensions/                          ← JupyterLab + Spark extensions
 │   │   ├── README.md
 │   │   ├── 00_extensions.ipynb
@@ -288,6 +322,46 @@ spark-cluster/
 | `05_large_scale_join_benchmark` | Larger synthetic benchmarks across shuffle, broadcast, AQE, filtered dimensions, skewed joins, salting, and decision tables | Production |
 
 
+### `patterns/` — Reusable Spark pipeline patterns
+
+| Notebook | What you will learn | Level |
+|---|---|---|
+| `01_pydantic_spark_contracts` | Pydantic contracts around Spark, edge validation, Spark-scale validation, valid/quarantine split | Intermediate |
+| `02_transform_pattern` | DataFrame `.transform()` style, reusable transformation functions, clean pipeline composition | Intermediate |
+| `03_config_driven_pipeline` | Moving validation and processing rules into config, config-driven Silver/quarantine output | Intermediate |
+| `04_rule_engine_pattern` | Rule lists, reusable rule application, dynamic `error_reason` tagging | Intermediate |
+| `05_column_mapping_pattern` | Source-to-target column mapping, safe aliasing, handling missing source columns | Beginner → Intermediate |
+| `06_audit_columns_pattern` | Standard audit metadata such as `created_at`, `updated_at`, `batch_id`, `pipeline_run_id` | Intermediate |
+| `07_data_contract_check_pattern` | Required column checks, missing/extra column detection, fail-fast contract guard | Intermediate |
+| `08_reusable_pipeline_function` | Wrapping transformation flow into reusable pipeline functions | Intermediate |
+| `09_multi_output_pattern` | Returning multiple pipeline outputs such as Silver, quarantine, and metrics | Intermediate |
+| `10_metrics_observability_pattern` | Pipeline metrics, row counts, valid/invalid counts, observability output | Intermediate |
+| `11_schema_drift_guard` | Detecting schema drift, extra columns, missing columns, and controlled cleanup | Intermediate |
+| `12_idempotent_upsert_pattern` | Safe insert/update flow, rerunnable upsert logic, duplicate prevention | Advanced |
+| `13_partitioning_strategy_pattern` | Partitioning strategy basics, data layout, partition pruning concepts | Intermediate |
+| `14_cache_persist_pattern` | Cache vs persist, reuse of intermediate DataFrames, unpersist discipline | Intermediate |
+| `15_window_pattern` | Window functions, dedup latest record, ranking, lag, running totals | Advanced |
+| `16_scd2_pattern` | Slowly Changing Dimension Type 2, expire old records, insert current records | Advanced |
+| `17_small_file_problem_pattern` | Small file problem, coalesce vs repartition, output file count control | Production |
+| `18_checkpoint_pattern` | Local checkpointing, lineage truncation, cache vs checkpoint | Advanced |
+| `19_join_optimization_pattern` | Filter-before-join, reducing shuffle volume, join plan comparison | Advanced |
+| `20_data_skew_pattern` | Skew detection, hot keys, salting pattern | Advanced |
+| `21_broadcast_vs_shuffle_pattern` | Broadcast join vs shuffle join, physical plan comparison | Advanced |
+| `22_pipeline_wrapper_pattern` | End-to-end pipeline wrapper returning prepared, Silver, quarantine, and metrics outputs | Production |
+
+
+### `patterns/medallion/` — Medallion architecture patterns
+
+| Notebook | What you will learn | Level |
+|---|---|---|
+| `00_basic` | Minimal Bronze → Silver → Gold flow with valid/quarantine split | Beginner |
+| `01_bronze_to_silver_quality` | Bronze metadata, parsing, validation rules, Silver valid rows, quarantine rows | Intermediate |
+| `02_silver_dedup_quarantine` | Silver deduplication with window ranking and duplicate quarantine | Intermediate |
+| `03_gold_aggregations` | Gold daily metrics, reporting grain, business aggregations, control totals | Intermediate |
+| `04_gold_star_schema` | Gold star schema, dimensions, fact table, analytics layer modeling | Advanced |
+| `05_incremental_load_idempotency` | Incremental load, left anti join, rerun-safe batch processing | Advanced |
+| `06_late_data_event_time` | Event time vs ingestion time, late data handling, late quarantine | Advanced |
+| `07_broadcast_dimension_join` | Enriching Silver events with small dimensions, broadcast joins, unknown dimension keys | Advanced |
 ### `extensions/` — JupyterLab and Spark extensions
 
 | Notebook | What you will learn | Level |
