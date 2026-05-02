@@ -37,17 +37,34 @@ RUN apt-get update && apt-get install -y --no-install-recommends curl \
 # ---------------------------------------------------------------------------
 # Python packages
 # ---------------------------------------------------------------------------
+# CORE (Spark + Python)
 RUN pip3 install --no-cache-dir \
     py4j \
-    jupyterlab \
     pandas \
     pyarrow \
     numpy \
     matplotlib \
     seaborn \
     "grpcio>=1.48.1" \
-    "grpcio-status>=1.48.1" \
- && pip3 install --no-cache-dir --no-deps delta-spark==4.0.1
+    "grpcio-status>=1.48.1"
+
+# SPARK SPECIFIC
+RUN pip3 install --no-cache-dir --no-deps \
+    delta-spark==4.0.1
+
+# JUPYTER + EXTENSIONS
+RUN pip3 install --no-cache-dir \
+    jupyterlab \
+    ipywidgets \
+    tqdm \
+    plotly \
+    itables \
+    jupysql \
+    duckdb \
+    nbdime \
+    nbstripout \
+    black \
+    ruff
 
 # ---------------------------------------------------------------------------
 # Iceberg + Delta + Avro + Hudi + Kafka connector JARs (Spark 4.0 / Scala 2.13)
