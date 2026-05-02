@@ -66,6 +66,15 @@ RUN pip3 install --no-cache-dir \
     black \
     ruff
 
+# Spark-specific notebook helper libraries
+RUN pip3 install --no-cache-dir \
+    quinn \
+    chispa \
+    cuallee \
+    ydata-profiling \
+    pandera
+
+
 # ---------------------------------------------------------------------------
 # Iceberg + Delta + Avro + Hudi + Kafka connector JARs (Spark 4.0 / Scala 2.13)
 # ---------------------------------------------------------------------------
