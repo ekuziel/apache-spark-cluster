@@ -212,6 +212,14 @@ spark-cluster/
 │   │       ├── 05_incremental_load_idempotency.ipynb
 │   │       ├── 06_late_data_event_time.ipynb
 │   │       └── 07_broadcast_dimension_join.ipynb
+│   │   └── scd/                              ← SCD patterns
+│   │       ├── README.md
+│   │       ├── 00_scd_type_0_retain_original.ipynb
+│   │       ├── 01_scd_type_1_overwrite.ipynb
+│   │       ├── 02_scd_type_2_history.ipynb
+│   │       ├── 03_scd_type_3_previous_value.ipynb
+│   │       ├── 04_scd_type_4_history_table.ipynb
+│   │       └── 06_scd_type_6_hybrid.ipynb
 │   ├── extensions/                          ← JupyterLab + Spark extensions
 │   │   ├── README.md
 │   │   ├── 00_extensions.ipynb
@@ -362,6 +370,20 @@ spark-cluster/
 | `05_incremental_load_idempotency` | Incremental load, left anti join, rerun-safe batch processing | Advanced |
 | `06_late_data_event_time` | Event time vs ingestion time, late data handling, late quarantine | Advanced |
 | `07_broadcast_dimension_join` | Enriching Silver events with small dimensions, broadcast joins, unknown dimension keys | Advanced |
+
+
+### `patterns/scd/` — SCD architecture patterns
+
+| Notebook | What you will learn | Level |
+|---|---|---|
+| `00_scd_type_0_retain_original` | Keep original values, ignore updates for existing keys | Beginner |
+| `01_scd_type_1_overwrite` | Overwrite attributes, no history | Beginner |
+| `02_scd_type_2_history` | Full history with valid_from / valid_to / is_current | Intermediate |
+| `03_scd_type_3_previous_value` | Current + previous value columns | Intermediate |
+| `04_scd_type_4_history_table` | Current table + separate history table | Intermediate |
+| `06_scd_type_6_hybrid` | Hybrid Type 1 + Type 2 + Type 3 | Advanced |
+
+
 ### `extensions/` — JupyterLab and Spark extensions
 
 | Notebook | What you will learn | Level |
