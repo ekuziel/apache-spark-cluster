@@ -1,10 +1,10 @@
-.PHONY: help init build build-kafka up kafka up-kafka up-gluten down logs logs-kafka status clean data notebook kafka-topics nuke
+.PHONY: help init build build-kafka up kafka up-kafka up-gluten down logs logs-kafka status clean data notebook kafka-topics nuke nb-count
 
 JUPYTER_URL  := http://localhost:8888
 SCALE        ?= 1
 
 help:
-	@echo ""
+	@echo "Available commands:"
 	@echo "  make init          create local directories"
 	@echo "  make build         docker compose build"
 	@echo "  make build-kafka   build Kafka broker image"
@@ -20,6 +20,7 @@ help:
 	@echo "  make clean         stop + delete all data"
 	@echo "  make notebook      open JupyterLab in browser"
 	@echo "  make kafka-topics  list Kafka topics"
+	@echo "  make nb-count      count all .ipynb files in notebooks folder"
 	@echo ""
 
 init:
@@ -109,3 +110,6 @@ nuke:
 	docker compose --profile kafka down --rmi all --volumes --remove-orphans 2>/dev/null || true
 	docker builder prune -f
 	@echo "All images and cache removed. Run 'make build' to rebuild from scratch."
+
+nb-count:
+	@echo "Notebook count:" $$(find notebooks -type f -name "*.ipynb" ! -path "*/.ipynb_checkpoints/*" | wc -l)
