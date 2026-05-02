@@ -170,7 +170,12 @@ spark-cluster/
 │   │   └── 03_off_heap_memory.ipynb
 │   │
 │   ├── joins/                               ← Join patterns & strategies
-│   │   └── 00_joins.ipynb
+│   │   ├── 00_joins.ipynb
+│   │   ├── 01_join_strategies_deep_dive.ipynb
+│   │   ├── 02_broadcast_vs_shuffle.ipynb
+│   │   ├── 03_aqe_join_optimization.ipynb
+│   │   ├── 04_skew_handling.ipynb
+│   │   └── 05_large_scale_join_benchmark.ipynb
 │   │
 │   ├── performance_internals/               ← Query planning & optimization
 │   │   ├── README.md
@@ -266,7 +271,12 @@ spark-cluster/
 
 | Notebook | What you will learn | Level |
 |---|---|---|
-| `00_joins` | All join types, semi/anti joins, cross/self joins, multi-key joins, null handling, duplicate keys, broadcast joins, execution plans, skew handling (salting) | Intermediate → Advanced |
+| `00_joins` | All join types, semi/anti joins, cross/self joins, multi-key joins, null handling, duplicate keys, broadcast joins, execution plans, skew handling, optional bucketed joins | Intermediate → Advanced |
+| `01_join_strategies_deep_dive` | Physical join strategies, BroadcastHashJoin, SortMergeJoin, ShuffledHashJoin, join hints, physical plan comparison | Advanced |
+| `02_broadcast_vs_shuffle` | Broadcast joins vs shuffle joins, auto broadcast threshold, forced broadcast, disabled broadcast, runtime and memory trade-offs | Advanced |
+| `03_aqe_join_optimization` | AQE on/off comparison, runtime plan changes, dynamic broadcast, shuffle partition coalescing, AQE skew join handling | Advanced |
+| `04_skew_handling` | Hot key simulation, partition metrics, skew diagnosis, AQE skew handling, manual salting, salted join comparison | Advanced |
+| `05_large_scale_join_benchmark` | Larger synthetic benchmarks across shuffle, broadcast, AQE, filtered dimensions, skewed joins, salting, and decision tables | Production |
 
 
 ### `performance_internals/` — Query planning & optimization

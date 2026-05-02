@@ -8,18 +8,10 @@ All notable changes follow [Semantic Versioning](https://semver.org/):
 ---
 ## [1.1.11]
 
-### Added — PySpark joins deep dive notebook
+### Added — PySpark joins deep dive notebooks
 
 #### `notebooks/joins/`
-- `00_joins` — Complete join guide in a single notebook:
-  - Join types: inner / left / right / full
-  - Left semi / left anti joins
-  - Cross join and self join
-  - Multi-column joins
-  - Null handling and duplicate keys
-  - Broadcast joins
-  - Execution plan analysis (`explain`)
-  - Skewed join problem and salting technique
+- `00_joins` — Complete joins guide:
 
 
 ## [1.1.10]
