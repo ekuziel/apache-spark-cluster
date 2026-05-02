@@ -6,6 +6,28 @@ All notable changes follow [Semantic Versioning](https://semver.org/):
 - **PATCH** — bug fixes, documentation, CI improvements
 
 ---
+## [1.1.12]
+
+### Added — JupyterLab and Spark extensions notebooks
+
+#### `notebooks/extensions/`
+- `00_extensions` — JupyterLab 4.x productivity tools for widgets, progress bars, tables, charts, SQL, notebook diffs, output stripping, formatting and linting.
+- `01_spark_extensions` — Spark-specific helper libraries and built-in PySpark diagnostics for validation, data quality, profiling and testing.
+- `02_spark_debugging` — Spark debugging patterns for joins, AQE, skew, caching, partitioning and query plans.
+- `03_sparkmeasure` — sparkMeasure-based Spark metrics examples for stages, tasks, shuffle, joins, caching, AQE and skew.
+- `04_sparkmeasure_explained` — Explanation notebook for reading aggregated sparkMeasure stage metrics.
+
+### Stack update
+- Added **sparkMeasure JAR dependency** for Spark stage/task metrics:
+  - `spark-measure_2.13`
+  - Scala 2.13 / Spark 4.x compatible JAR loaded from `${SPARK_HOME}/jars/`.
+
+- Added Python dependencies for JupyterLab + Spark extensions:
+  JupyterLab & productivity/Spark helper libraries:
+  - `jupyterlab`,`ipywidgets`,`tqdm`,`plotly`,`itables`
+  - `jupysql`,`duckdb`,`nbdime`,`nbstripout`,`black`,`ruff`
+    - `quinn`,`chispa`,`cuallee`,`ydata-profiling`,`pandera`
+
 ## [1.1.11]
 
 ### Added — PySpark joins deep dive notebooks
