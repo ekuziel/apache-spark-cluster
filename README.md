@@ -23,7 +23,6 @@ A local development environment for testing and benchmarking Spark features and 
 | Kafka UI | **1.2.0** | `ghcr.io/kafbat/kafka-ui:v1.2.0` — https://github.com/kafbat/kafka-ui |
 | Spark Kafka Connector | **4.0.2** | `spark-sql-kafka-0-10_2.13` — https://repo1.maven.org/maven2/org/apache/spark/spark-sql-kafka-0-10_2.13/4.0.2/ |
 | JupyterLab | **4.x** | https://jupyter.org/ |
-| sparkMeasure | **0.27** | Spark stage/task metrics helper — Scala 2.13 JAR — https://repo1.maven.org/maven2/ch/cern/sparkmeasure/spark-measure_2.13/0.27/spark-measure_2.13-0.27.jar |
 | Base OS | Ubuntu 22.04 | https://releases.ubuntu.com/22.04/ |
 
 > **Note:** Gluten 1.6.0 was tested against Spark 4.0.1. Running on 4.0.2 produces a harmless
