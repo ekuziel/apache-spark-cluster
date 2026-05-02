@@ -11,10 +11,12 @@ FROM spark:4.0.2-scala2.13-java17-python3-ubuntu
 
 ARG GLUTEN_VERSION=1.6.0
 ARG HUDI_VERSION=1.1.1
+ARG SPARKMEASURE_VERSION=0.27
 
 ENV SPARK_VERSION=4.0.2
 ENV GLUTEN_VERSION=${GLUTEN_VERSION}
 ENV HUDI_VERSION=${HUDI_VERSION}
+
 ENV SPARK_LOG_DIR=/opt/spark/logs
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
@@ -105,6 +107,13 @@ RUN curl -fsSL \
  && curl -fsSL \
     "https://repo1.maven.org/maven2/org/apache/hudi/hudi-spark4.0-bundle_2.13/${HUDI_VERSION}/hudi-spark4.0-bundle_2.13-${HUDI_VERSION}.jar" \
     -o "${SPARK_HOME}/jars/hudi-spark4.0-bundle_2.13-${HUDI_VERSION}.jar"
+
+# ---------------------------------------------------------------------------
+# sparkMeasure JAR (Spark metrics helper)
+# ---------------------------------------------------------------------------
+RUN curl -fsSL \
+    "https://repo1.maven.org/maven2/ch/cern/sparkmeasure/spark-measure_2.13/${SPARKMEASURE_VERSION}/spark-measure_2.13-${SPARKMEASURE_VERSION}.jar" \
+    -o "${SPARK_HOME}/jars/spark-measure_2.13-${SPARKMEASURE_VERSION}.jar"
 
 # ---------------------------------------------------------------------------
 # Gluten/Velox JAR — extracted from official Apache binary tarball
